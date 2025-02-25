@@ -11,30 +11,40 @@ configure({
   asyncUtilTimeout: 5000,
 });
 
-// Mock TransformStream
+// Mock browser APIs
 global.TransformStream = class TransformStream {};
+global.TextDecoderStream = class TextDecoderStream {};
+global.TextEncoderStream = class TextEncoderStream {};
 
-// Mock OpenAI
+// Mock external services
 jest.mock('openai', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
+  OpenAI: jest.fn().mockImplementation(() => ({
     chat: {
       completions: {
-        create: jest.fn()
+        create: jest.fn().mockResolvedValue({
+          choices: [{ message: { content: 'Test response' } }]
+        })
       }
     }
   }))
 }));
 
-// Mock Replicate
+jest.mock('@huggingface/inference', () => ({
+  HfInference: jest.fn().mockImplementation(() => ({
+    textGeneration: jest.fn()
+  }))
+}));
+
 jest.mock('replicate', () => ({
-  __esModule: true,
-  default: jest.fn()
+  default: jest.fn().mockImplementation(() => ({
+    run: jest.fn()
+  }))
 }));
 
 // Mock environment variables
-process.env.REACT_APP_OPENAI_API_KEY = 'test-api-key';
-process.env.REACT_APP_GITHUB_TOKEN = 'test-github-token';
+process.env.REACT_APP_OPENAI_API_KEY = 'test-key';
+process.env.REACT_APP_HF_API_KEY = 'test-key';
+process.env.REACT_APP_REPLICATE_API_KEY = 'test-key';
 
 // Add this to test the UI with sample data
 window.sampleTestResults = {
