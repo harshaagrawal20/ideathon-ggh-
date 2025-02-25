@@ -4,6 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
+import React from 'react';
 
 // Configure testing-library
 configure({
@@ -16,7 +17,16 @@ global.TransformStream = class TransformStream {};
 global.TextDecoderStream = class TextDecoderStream {};
 global.TextEncoderStream = class TextEncoderStream {};
 
-// Mock external services
+// Mock Monaco Editor
+jest.mock('@monaco-editor/react', () => ({
+  default: ({ children, ...props }) => (
+    <div data-testid="monaco-editor-container" {...props}>
+      {children}
+    </div>
+  )
+}));
+
+// Mock OpenAI
 jest.mock('openai', () => ({
   OpenAI: jest.fn().mockImplementation(() => ({
     chat: {
@@ -29,22 +39,9 @@ jest.mock('openai', () => ({
   }))
 }));
 
-jest.mock('@huggingface/inference', () => ({
-  HfInference: jest.fn().mockImplementation(() => ({
-    textGeneration: jest.fn()
-  }))
-}));
-
-jest.mock('replicate', () => ({
-  default: jest.fn().mockImplementation(() => ({
-    run: jest.fn()
-  }))
-}));
-
 // Mock environment variables
 process.env.REACT_APP_OPENAI_API_KEY = 'test-key';
-process.env.REACT_APP_HF_API_KEY = 'test-key';
-process.env.REACT_APP_REPLICATE_API_KEY = 'test-key';
+process.env.REACT_APP_PISTON_API_URL = 'http://localhost:2000';
 
 // Add this to test the UI with sample data
 window.sampleTestResults = {
