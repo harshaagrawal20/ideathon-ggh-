@@ -1,0 +1,42 @@
+.cm-editor {
+  height: 100% !important;
+  position: relative !important;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+}
+
+.editor-wrapper {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cm-editor .cm-scroller {
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+.cm-editor .cm-content {
+  height: 100% !important;
+  min-height: 100% !important;
+  white-space: pre-wrap;
+}
+
+.cm-editor .cm-line {
+  padding: 0 8px;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+}
+
+.cm-editor .cm-matchingBracket {
+  background-color: rgba(73, 72, 62, 0.5);
+  border-bottom: 1px solid #f8f8f2;
+}
+
+.cm-editor .cm-activeLine {
+  background-color: rgba(73, 72, 62, 0.3);
+} 
