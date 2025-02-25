@@ -1226,4 +1226,28 @@ h3 {
 .output-container {
   flex: 1;
   overflow: hidden;
+}
+
+.error-display {
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+  border: 1px solid #ff4444;
+}
+
+.error-display h2 {
+  color: #ff4444;
+  margin-top: 0;
+}
+
+.error-display details {
+  margin-top: 10px;
+}
+
+.error-display pre {
+  background: var(--background-primary);
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
 } 

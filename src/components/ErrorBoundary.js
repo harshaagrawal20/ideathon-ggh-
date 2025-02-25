@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import ErrorDisplay from './ErrorDisplay';
 
-class ErrorBoundary extends React.Component {
-  state = { hasError: false, error: null };
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
 
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
