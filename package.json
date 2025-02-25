@@ -62,7 +62,8 @@
       "jsx"
     ],
     "setupFilesAfterEnv": [
-      "@testing-library/jest-dom/extend-expect"
+      "@testing-library/jest-dom/extend-expect",
+      "<rootDir>/src/setupTests.js"
     ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
@@ -76,6 +77,9 @@
         "lines": 80,
         "statements": 80
       }
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     }
   },
   "devDependencies": {

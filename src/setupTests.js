@@ -11,17 +11,25 @@ configure({
   asyncUtilTimeout: 5000,
 });
 
-// Mock OpenAI API
+// Mock TransformStream
+global.TransformStream = class TransformStream {};
+
+// Mock OpenAI
 jest.mock('openai', () => ({
-  OpenAI: jest.fn().mockImplementation(() => ({
+  __esModule: true,
+  default: jest.fn(() => ({
     chat: {
       completions: {
-        create: jest.fn().mockResolvedValue({
-          choices: [{ message: { content: 'Mocked AI Response' } }]
-        })
+        create: jest.fn()
       }
     }
   }))
+}));
+
+// Mock Replicate
+jest.mock('replicate', () => ({
+  __esModule: true,
+  default: jest.fn()
 }));
 
 // Mock environment variables

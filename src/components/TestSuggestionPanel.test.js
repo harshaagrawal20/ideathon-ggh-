@@ -1,8 +1,22 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TestSuggestionPanel from './TestSuggestionPanel';
 
+// Mock the service
+jest.mock('../services/testGenerationService');
+
 describe('TestSuggestionPanel', () => {
-  const mockCode = 'function add(a, b) { return a + b; }';
+  const mockCode = 'function test() { return true; }';
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('renders panel with title', () => {
+    render(<TestSuggestionPanel code={mockCode} />);
+    expect(screen.getByText(/Test Suggestions/)).toBeInTheDocument();
+  });
 
   test('renders test generation panel', () => {
     render(<TestSuggestionPanel code={mockCode} />);
