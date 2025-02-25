@@ -19,9 +19,6 @@
     "test": "react-scripts test",
     "test:watch": "react-scripts test --watch",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
-    "test:ci": "react-scripts test --watchAll=false --ci --coverage --testMatch=\"**/__tests__/**/*.js?(x),**/?(*.)+(spec|test).js?(x)\"",
-    "lint": "eslint src/**/*.{js,jsx}",
-    "lint:fix": "eslint src/**/*.{js,jsx} --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
