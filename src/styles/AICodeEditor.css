@@ -1,8 +1,43 @@
+:root {
+  /* Light theme variables */
+  --background-primary: #ffffff;
+  --background-secondary: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --header-bg: #ffffff;
+  --editor-bg: #ffffff;
+  --input-bg: #ffffff;
+  --output-bg: #f8f9fa;
+}
+
+/* Dark theme */
+:root[data-theme='dark'] {
+  --background-primary: #1e1e1e;
+  --background-secondary: #252526;
+  --text-primary: #d4d4d4;
+  --text-secondary: #a0a0a0;
+  --border-color: #404040;
+  --header-bg: #252526;
+  --editor-bg: #1e1e1e;
+  --input-bg: #1e1e1e;
+  --output-bg: #252526;
+}
+
+/* Apply theme to body */
+body {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .ai-code-editor {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--background-light);
+  background-color: var(--background-primary);
   color: var(--text-primary);
   padding: 20px;
   gap: 20px;
@@ -12,10 +47,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 10px 15px;
   background: var(--background-lighter);
   border-radius: 10px;
   box-shadow: 0 2px 8px var(--shadow-color);
+  margin-bottom: 0;
 }
 
 .editor-controls-left,
@@ -46,7 +82,31 @@
 .main-content {
   display: flex;
   gap: 20px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.left-panel {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background: var(--header-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 0;
+  position: relative;
+}
+
+.editor-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--background-primary);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .editor-section {
@@ -76,6 +136,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 100px;
 }
 
 .stdin-container label {
@@ -107,6 +168,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
 }
 
 .run-button {
@@ -1043,14 +1105,6 @@ h3 {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.editor-wrapper {
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 6px;
-  background: var(--background-light);
-}
-
 .editor-loading {
   display: flex;
   align-items: center;
@@ -1062,11 +1116,17 @@ h3 {
 
 /* Monaco Editor specific styles */
 .monaco-editor {
-  padding-top: 8px;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .monaco-editor .margin {
-  background-color: var(--background-lighter) !important;
+  background-color: var(--background-secondary) !important;
 }
 
 .monaco-editor .minimap {
@@ -1096,12 +1156,12 @@ h3 {
 /* Monaco Editor Enhancements */
 .monaco-editor .current-line {
   border: none !important;
-  background-color: var(--background-lighter) !important;
+  background-color: var(--background-secondary) !important;
 }
 
 .monaco-editor .margin-view-overlays .current-line-margin {
   border: none !important;
-  background-color: var(--background-lighter) !important;
+  background-color: var(--background-secondary) !important;
 }
 
 .monaco-editor .line-numbers {
@@ -1133,10 +1193,37 @@ h3 {
 /* Add smooth scrolling */
 .monaco-editor .monaco-scrollable-element {
   scroll-behavior: smooth;
+  height: 100% !important;
 }
 
 /* Better focus styles */
 .monaco-editor.focused {
   outline: none;
   box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.right-panel {
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.output-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--background-secondary);
+  border-radius: 10px;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.output-container {
+  flex: 1;
+  overflow: hidden;
 } 

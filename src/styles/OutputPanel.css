@@ -1,0 +1,47 @@
+.output-panel {
+  background: var(--output-bg);
+  color: var(--output-text);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  height: 100%;
+  overflow-y: auto;
+  font-family: 'Fira Code', monospace;
+}
+
+.output-panel h3 {
+  color: #e0e0e0;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.output-content {
+  background: var(--editor-bg);
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.output-content pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.output-content code {
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.has-error {
+  border-left: 4px solid #ff5555;
+}
+
+.error-output {
+  color: #ff5555;
+  border-left: 3px solid #ff5555;
+  padding-left: 12px;
+} 

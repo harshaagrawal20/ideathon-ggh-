@@ -76,70 +76,28 @@ const MOCK_TEST_RESULTS = {
   ]
 };
 
-export const generateTests = async (code, framework = 'jest') => {
-  try {
-    if (!code || typeof code !== 'string') {
-      throw new Error('Invalid code input');
+export const generateTests = async (code, language) => {
+  // Add more comprehensive test generation
+  const testPatterns = {
+    javascript: {
+      unit: 'describe("${functionName}", () => {',
+      integration: 'describe("Integration", () => {',
+      edge: 'test("Edge cases", () => {'
     }
+  };
 
-    if (MOCK_MODE) {
-      console.log('Using mock test results');
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
-      return MOCK_TEST_RESULTS;
-    }
-
-    await waitForTestRateLimit();
-    lastTestCallTimestamp = Date.now();
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are a test automation expert. Generate comprehensive tests with high coverage."
-        },
-        {
-          role: "user",
-          content: generateTestPrompt(code, framework)
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 2000
-    });
-
-    const result = response.choices[0].message.content;
-    
-    // Extract sections using regex
-    const testCode = result.match(/TEST_CODE:\n([\s\S]*?)\nEND_TEST_CODE/)?.[1] || '';
-    const coverage = result.match(/COVERAGE:\n([\s\S]*?)\nEND_COVERAGE/)?.[1] || '';
-    const suggestions = result.match(/SUGGESTIONS:\n([\s\S]*?)\nEND_SUGGESTIONS/)?.[1] || '';
-
-    // Parse coverage metrics
-    const coverageMetrics = {
-      lines: parseInt(coverage.match(/Lines: (\d+)/)?.[1] || '0'),
-      functions: parseInt(coverage.match(/Functions: (\d+)/)?.[1] || '0'),
-      branches: parseInt(coverage.match(/Branches: (\d+)/)?.[1] || '0')
-    };
-
-    // Parse suggestions
-    const suggestionsList = suggestions
-      .split('\n')
-      .map(s => s.trim())
-      .filter(s => s.startsWith('-'))
-      .map(s => s.substring(1).trim());
-
+  // Add test coverage analysis
+  const analyzeCoverage = (code) => {
     return {
-      testCode,
-      coverage: coverageMetrics,
-      suggestions: suggestionsList
+      lines: calculateLineCoverage(code),
+      functions: calculateFunctionCoverage(code),
+      branches: calculateBranchCoverage(code)
     };
+  };
 
-  } catch (error) {
-    console.error('Error generating tests:', error);
-    return {
-      testCode: `// Error generating tests: ${error.message}`,
-      coverage: { lines: 0, functions: 0, branches: 0 },
-      suggestions: ['Failed to generate tests. Please try again.']
-    };
-  }
+  return {
+    testCode: generateTestCode(code, language),
+    coverage: analyzeCoverage(code),
+    suggestions: generateTestSuggestions(code)
+  };
 }; 

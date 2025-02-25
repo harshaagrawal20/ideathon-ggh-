@@ -12,23 +12,34 @@ const completions = {
 };
 
 export const getLanguageCompletions = (language) => {
-  // Add type validation
-  if (typeof language !== 'string') {
-    throw new TypeError('Language parameter must be a string');
-  }
+  const completions = {
+    python: [
+      {
+        label: 'print',
+        kind: 'Function',
+        insertText: 'print(${1:value})',
+        insertTextRules: 4, // Use CompletionItemInsertTextRule.InsertAsSnippet
+        documentation: 'Print a value to the console',
+        detail: 'print(value)',
+      },
+      {
+        label: 'def',
+        kind: 'Keyword',
+        insertText: 'def ${1:function_name}(${2:parameters}):\n\t${3:pass}',
+        insertTextRules: 4,
+        documentation: 'Define a new function',
+      },
+      {
+        label: 'if',
+        kind: 'Keyword',
+        insertText: 'if ${1:condition}:\n\t${2:pass}',
+        insertTextRules: 4,
+        documentation: 'If statement',
+      },
+      // Add more Python completions as needed
+    ],
+    // Add other language completions here
+  };
 
-  // Check cache first
-  if (completionsCache.has(language)) {
-    return completionsCache.get(language);
-  }
-
-  // Add supported languages constant
-  const SUPPORTED_LANGUAGES = ['python', 'javascript', 'ruby'];
-  if (!SUPPORTED_LANGUAGES.includes(language)) {
-    console.warn(`Language '${language}' is not supported. Returning empty completions.`);
-  }
-
-  const result = completions[language] || [];
-  completionsCache.set(language, result);
-  return result;
+  return completions[language] || [];
 }; 

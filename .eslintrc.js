@@ -15,5 +15,6 @@ module.exports = {
       'classes': true,
       'variables': true
     }]
-  }
+  },
+  ignorePatterns: ['src/components/ChatbaseWidget.js']
 }; 

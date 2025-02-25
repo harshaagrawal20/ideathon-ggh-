@@ -1,0 +1,59 @@
+.ai-suggestions {
+  padding: 1rem;
+  background: #1e1e1e;
+  border-radius: 4px;
+}
+
+.suggestion-card {
+  background: #2d2d2d;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.suggestion-card h4 {
+  color: #e0e0e0;
+  margin-top: 0;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.category-badge.security {
+  background: #ff5555;
+  color: white;
+}
+
+.category-badge.improvement {
+  background: #50fa7b;
+  color: black;
+}
+
+.suggestion-card pre {
+  background: #383838;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.suggestion-card code {
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ai-suggestions-loading,
+.ai-suggestions-error {
+  padding: 1rem;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.ai-suggestions-error {
+  color: #ff5555;
+} 
