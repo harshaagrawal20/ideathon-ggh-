@@ -9,6 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    env:
+      CI: true
+      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+      REACT_APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - uses: actions/checkout@v4
@@ -26,9 +31,4 @@ jobs:
       run: npm test
       
     - name: Build
-      run: npm run build
-      
-    env:
-      CI: true
-      REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
-      REACT_APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      run: npm run build 
