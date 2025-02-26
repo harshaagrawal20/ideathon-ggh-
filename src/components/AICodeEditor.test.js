@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AICodeEditor from './AICodeEditor';
 import { ThemeProvider } from '../context/ThemeContext';
@@ -16,16 +16,25 @@ const renderWithTheme = (component) => {
 
 describe('AICodeEditor', () => {
   beforeEach(() => {
+    localStorage.clear();
     jest.clearAllMocks();
   });
 
   test('renders editor with default code', () => {
     renderWithTheme(<AICodeEditor />);
-    expect(screen.getByText(/Write your code here/)).toBeInTheDocument();
+    const editorElement = screen.getByTestId('monaco-editor');
+    expect(editorElement).toBeInTheDocument();
   });
 
   test('renders language selector', () => {
     renderWithTheme(<AICodeEditor />);
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    const selector = screen.getByRole('combobox', { name: /language/i });
+    expect(selector).toBeInTheDocument();
+  });
+
+  test('renders run button', () => {
+    renderWithTheme(<AICodeEditor />);
+    const runButton = screen.getByText(/Run Code/i);
+    expect(runButton).toBeInTheDocument();
   });
 }); 

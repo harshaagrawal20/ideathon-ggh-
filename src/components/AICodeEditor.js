@@ -315,6 +315,7 @@ const AICodeEditor = () => {
             value={selectedLanguage}
             onChange={handleLanguageChange}
             className="language-selector"
+            aria-label="language selector"
           >
             <option value="javascript">JavaScript</option>
             <option value="python">Python</option>
@@ -325,6 +326,7 @@ const AICodeEditor = () => {
             value={theme}
             onChange={(e) => toggleTheme(e.target.value)}
             className="theme-selector"
+            aria-label="theme selector"
           >
             <option value="vs-dark">Dark</option>
             <option value="vs">Light</option>

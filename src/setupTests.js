@@ -12,19 +12,44 @@ configure({
   asyncUtilTimeout: 5000,
 });
 
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn()
+};
+global.localStorage = localStorageMock;
+
+// Mock MonacoEditor
+jest.mock('@monaco-editor/react', () => {
+  return function MockMonacoEditor(props) {
+    return (
+      <div data-testid="monaco-editor">
+        <pre>{props.value || '// Write your code here'}</pre>
+      </div>
+    );
+  };
+});
+
 // Mock browser APIs
 global.TransformStream = class TransformStream {};
 global.TextDecoderStream = class TextDecoderStream {};
 global.TextEncoderStream = class TextEncoderStream {};
-
-// Mock Monaco Editor
-jest.mock('@monaco-editor/react', () => ({
-  default: ({ children, ...props }) => (
-    <div data-testid="monaco-editor-container" {...props}>
-      {children}
-    </div>
-  )
-}));
 
 // Mock OpenAI
 jest.mock('openai', () => ({
@@ -42,23 +67,3 @@ jest.mock('openai', () => ({
 // Mock environment variables
 process.env.REACT_APP_OPENAI_API_KEY = 'test-key';
 process.env.REACT_APP_PISTON_API_URL = 'http://localhost:2000';
-
-// Add this to test the UI with sample data
-window.sampleTestResults = {
-  testCode: `
-describe('calculateTotal', () => {
-  test('should calculate total with no discount', () => {
-    expect(calculateTotal([10, 20, 30])).toBe(60);
-  });
-});`,
-  coverage: {
-    lines: 85,
-    functions: 90,
-    branches: 75
-  },
-  suggestions: [
-    'Add test for empty array input',
-    'Test negative numbers handling',
-    'Verify discount calculations'
-  ]
-};

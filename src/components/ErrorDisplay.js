@@ -2,7 +2,7 @@ import React from 'react';
 
 const ErrorDisplay = ({ error }) => {
   return (
-    <div className="error-display">
+    <div className="error-display" data-testid="error-display">
       <h2>Something went wrong</h2>
       <details>
         <summary>Error Details</summary>

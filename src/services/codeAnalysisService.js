@@ -64,13 +64,13 @@ export const analyzeCode = (code) => {
 
   // Add language-specific patterns
   const languagePatterns = {
-    javascript: {
+  javascript: {
       // Add more JS-specific patterns
       'async/await': /await\s+(?!Promise)/,
       'promiseChaining': /\.then\(.*\)\.then/,
       'errorHandling': /try\s*{[^}]*}\s*catch\s*\([^)]*\)\s*{[^}]*}/
-    },
-    python: {
+  },
+  python: {
       'typeHints': /def\s+\w+\([^:]*\)\s*->\s*\w+:/,
       'contextManagers': /with\s+.*:/,
       'listComprehension': /\[.*for.*in.*\]/
@@ -86,9 +86,9 @@ export const analyzeCode = (code) => {
           issue: `Consider using ${name}`,
           explanation: `${name} can improve code quality`,
           severity: 'info'
-        });
-      }
-    });
+          });
+        }
+      });
   }
 
   return issues;

@@ -20,20 +20,31 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
-  const [theme, setTheme] = useState(() => {
-    // Get saved theme from localStorage or use system preference
+  const getInitialTheme = () => {
+    // Check local storage first
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (savedTheme) return savedTheme;
     
-    // Check system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'vs-dark' : 'vs';
-  });
+    // Check system preference with safety check for test environment
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      try {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'vs-dark' : 'vs';
+      } catch (error) {
+        console.warn('Error checking system theme preference:', error);
+        return 'vs-dark'; // Default to dark theme if check fails
+      }
+    }
+    
+    return 'vs-dark'; // Default theme
+  };
+
+  const [theme, setTheme] = useState(getInitialTheme);
 
   // Apply theme on initial load
   useEffect(() => {
     applyTheme(theme);
-  }, []);
+  }, [theme]);
 
   const toggleTheme = (newTheme) => {
     setTheme(newTheme);

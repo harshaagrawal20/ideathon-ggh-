@@ -12,7 +12,10 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    // Log the error but don't console.error in tests
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Error caught by boundary:', error, errorInfo);
+    }
   }
 
   render() {
